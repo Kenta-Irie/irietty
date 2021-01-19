@@ -1,13 +1,14 @@
 ! This fortran program can convert netCDF data like a wrfout into binary data. 
+! Check the information for the variable with "ncdump -v VAR". 
 ! when you compile this program,
-! gfortran test.f90 -L/usr/local/netcdf-c-4.7.3/lib -lnetcdf -L/usr/local/netcdf-fortran-4.5.2/lib/ -lnetcdff
+! $ gfortran test.f90 -L/path_to_netcdf-c/lib -lnetcdf -L/path_to_netcdf-fortran/lib/ -lnetcdff
 
 program nc_to_dat
 
   implicit none
   include 'path_to_dir/netcdf.inc'
 
-  integer(4),parameter::nx=200,ny=188,nz=49,nt=1
+  integer(4),parameter::nx=200,ny=188,nz=49,nt=1 !check with ncdump command
   integer(4)::ncid,status,rhid
   real(4)::psfc(nx,ny,nt),slp(nx,ny,nt)
   character(128)::input,output,var
@@ -20,11 +21,11 @@ program nc_to_dat
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
   status=nf_open(input, nf_nowrite, ncid) !open file and get netcdf ID(ncid)
-  status=nf_inq_varid(ncid, var, rhid) !get variable ID(rhid)
-  status=nf_get_var_real(ncid, rhid, psfc) ! read variable
-  status=nf_close(ncid) ! close file
+  status=nf_inq_varid(ncid, var, rhid)  !!get variable ID(rhid)
+  status=nf_get_var_real(ncid, rhid, psfc) !read variable.
+  status=nf_close(ncid) !close file
 
-! Initialize variable !
+!! Initialize variable !!
   do t=1,nt
      do y=1,ny
         do x=1,nx
@@ -34,11 +35,10 @@ program nc_to_dat
      end do
   end do
 
-
-! output as binary data !
+!! output as binary data !!
   write(output,'("test.dat")')
   open(10,file=output,status='unknown',form='unformatted',access='direct',recl=4*nx*ny*nt)
-  write(10,rec=1)slp
+  write(10,rec=1) slp
   close(10)
   
 end program nc_to_dat
