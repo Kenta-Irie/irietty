@@ -3,7 +3,7 @@
 ! when you compile this program,
 ! $ gfortran test.f90 -L/path_to_netcdf-c/lib -lnetcdf -L/path_to_netcdf-fortran/lib/ -lnetcdff
 
-program nc_to_dat
+program nc2dat
 
   implicit none
   include 'path_to_dir/netcdf.inc'
@@ -41,8 +41,6 @@ program nc_to_dat
   write(10,rec=1) slp
   close(10)
   
-end program nc_to_dat
+end program nc2dat
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!     2021/1/12 Kenta Irie @ DPRI,Kyoto University     !!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!! 2021/1/12 Kenta Irie @ DPRI,Kyoto University
