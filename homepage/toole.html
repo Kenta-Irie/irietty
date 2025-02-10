@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja">
+<head>
+ <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+ <meta http-equiv="content-style-type" content="text/css" />
+ <meta http-equiv="Content-Script-Type" content="text/javascript" />
+
+ <title>WRF</title>
+ <link rel="stylesheet" href="skin/irid/cloudwalk/cloudwalk.css" title="cloudwalk" type="text/css" charset="Shift_JIS" />
+ <link rel="alternate" type="application/rss+xml" title="RSS" href="./?cmd=rss" />
+ <script type="text/javascript" src="skin/irid/external_link.js"></script>
+ <script type="text/javascript" src="skin/trackback.js"></script>
+
+
+</head>
+<body>
+<div id="wrapper"><!-- ■BEGIN id:wrapper -->
+<!-- ◆ Header ◆ ========================================================== -->
+<div id="header">
+<div id="logo"><a href="./">WRF memo</a></div>
+</div>
+<!-- ◆ Navigator ◆ ======================================================= -->
+<div id="navigator">
+	
+</div>
+<!-- ◆ Content ◆ ========================================================= -->
+<div id="main"><!-- ■BEGIN id:main -->
+<div id="wrap_content"><!-- ■BEGIN id:wrap_content -->
+<div id="content"><!-- ■BEGIN id:content -->
+<div id="page_navigator"><!-- ■BEGIN id:page_navigator -->
+	
+</div><!-- □END id:PageNavigator -->
+<h1 class="title"><a href="./?plugin=related&amp;page=WRF">WRF</a> </h1>
+<!-- ■BEGIN id:lastmodified -->
+<div id="lastmodified">Last-modified: 2024-09-13 (金) 14:06:18<span class="page_passage" data-mtime="2024-09-13T14:06:18+09:00"></span></div>
+<!-- □END id:lastmodified -->
+<div id="body"><!-- ■BEGIN id:body -->
+
+<p><span style="font-size:24px;display:inline-block;line-height:130%;text-indent:0">WRF に関するページ</span></p>
+<div class="contents">
+<a id="contents_1"></a>
+<ul class="list1 list-indent1"><li><a href="#vd90d38d">  インストール前の推奨設定 </a></li>
+<li><a href="#xe3b3565">  必要なライブラリ群 </a>
+<ul class="list2 list-indent1"><li><a href="#m8912b0d">  Ubuntu (パッケージ管理ツール, apt-getやapt, から) </a></li>
+<li><a href="#i42e9d6e">  Ubuntu (ソースコードから) </a></li></ul></li>
+<li><a href="#hd6d61d6">  WPS のコンパイル </a>
+<ul class="list2 list-indent1"><li><a href="#zd57964d">  WPSV4.1 </a></li>
+<li><a href="#m556d1d6">  地形平滑化実験 </a></li></ul></li>
+<li><a href="#g7ecb316">  WRF のコンパイル </a>
+<ul class="list2 list-indent1"><li><a href="#cf5a64d1">  WRFV4.1.3 </a></li>
+<li><a href="#zd46060d">  WRFV3.6 </a></li>
+<li><a href="#x7ee0b34">  細かい変数を出力する&lt;-必読 </a></li></ul></li>
+<li><a href="#xfce3fb6">  ARWPost のコンパイル </a>
+<ul class="list2 list-indent1"><li><a href="#v85586ac">  注意事項 </a></li>
+<li><a href="#wb9a8e2e">  ARWPost の NetCDF 出力 </a></li>
+<li><a href="#w9929271">  namelist.ARWPost の各変数の日本語訳 </a></li></ul></li>
+<li><a href="#v6d3a204">  wrfout ファイル (WRFの計算結果) の後処理プログラム </a>
+<ul class="list2 list-indent1"><li><a href="#r1213de9">  read_wrf_nc </a></li></ul></li>
+<li><a href="#f39761a1">  その他テクニック </a>
+<ul class="list2 list-indent1"><li><a href="#d8f3e041">  エラーが出るときに疑うべき項目 </a></li>
+<li><a href="#ac73767d">  計算領域 </a></li>
+<li><a href="#b407c060">  シェルスクリプト </a></li>
+<li><a href="#ica3027a">  orihimeでWRFを回す際 </a></li>
+<li><a href="#j9682e18">  wrfout.ncからバイナリファイルを切り出す。 </a></li>
+<li><a href="#w2c0341e">  SST update </a></li>
+<li><a href="#w2c0341e">  Interval of output (wrfout) files </a></li></ul></li>
+<li><a href="#g7ecb316">  京大システムBで　WRF のコンパイル </a>
+<ul class="list2 list-indent1"><li><a href="#r52567fd">  コンパイルに成功したが、Segmentation Faultが起こってしまう（スパコン） </a></li>
+<li><a href="#oe7227ae">  real.exeがエラーメッセージ無しで強制終了されてしまう（スパコン） </a></li></ul></li></ul>
+</div>
+
+<h2 id="content_1_0">インストール前の推奨設定  <a class="anchor_super" id="vd90d38d" href="./?WRF#vd90d38d" title="vd90d38d" style="user-select:none;">&dagger;</a></h2>
+<pre>export WRFIO_NCD_LARGE_FILE_SUPPORT=1
+export NETCDF=&lt;PATH_OF_NETCDF&gt;  (for WRFV4)</pre>
+<blockquote><p class="quotation">NetCDF データ入出力時に 2GB 以上のデータを扱えるようにするために必要</p>
+<p class="quotation">&lt;PATH_OF_NETCDF&gt;のところはNetCDFのPATH</p></blockquote>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_1">必要なライブラリ群  <a class="anchor_super" id="xe3b3565" href="./?WRF#xe3b3565" title="xe3b3565" style="user-select:none;">&dagger;</a></h2>
+<ul class="list1 list-indent1"><li>jasper</li>
+<li>png</li>
+<li>zlib</li>
+<li>netcdf</li>
+<li>mpich2 (for MPI 計算)</li></ul>
+<p>（2014/8/6吉田 自分の場合は、m4も必要でした。cshellも入ってなかったので入れる必要がありました。）</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_2">Ubuntu (パッケージ管理ツール, apt-getやapt, から)  <a class="anchor_super" id="m8912b0d" href="./?WRF#m8912b0d" title="m8912b0d" style="user-select:none;">&dagger;</a></h3>
+<pre>$ sudo apt-get install jasper libjasper* libpng* libg2* zlib* libhdf5* libnetcdf* mpich*
+$ dpkg --search libnetcdf | grep &quot;libnetcdf-dev&quot;
+$ dpkg --search libhdf | grep &quot;libhdf-dev&quot;</pre>
+<p>(2020-03-09 柳瀬, Ubuntu 18.04ではjasperはaptでは入らない. <a href="https://askubuntu.com/questions/1079956/what-is-the-library-to-be-installed-for-jasper-h-header-file)" rel="nofollow">https://askubuntu.com/questions/1079956/what-is-the-library-to-be-installed-for-jasper-h-header-file)</a></p>
+<pre># wget http://security.ubuntu.com/ubuntu/pool/main/j/jasper/libjasper-dev_1.900.1-debian1-2.4ubuntu1.2_amd64.deb
+# wget http://security.ubuntu.com/ubuntu/pool/main/j/jasper/libjasper1_1.900.1-debian1-2.4ubuntu1.2_amd64.deb
+# apt-get install ./libjasper-dev_1.900.1-debian1-2.4ubuntu1.2_amd64.deb ./libjasper1_1.900.1-debian1-2.4ubuntu1.2_amd64.deb</pre>
+<ul class="list1 list-indent1"><li>C Compiler:        gcc (got by apt)</li>
+<li>C++ Compiler:      g++ (got by apt)</li>
+<li>Fortran Compiler:  gfortran (got by apt)</li>
+<li>MPICH2:            ver. 1.4.1p1 (got by apt)</li>
+<li>NetCDF:            ver. 4.1.3 (got by apt)</li>
+<li>WRF/WPS:           ver.3.6 (その他のバージョンでは，現在コンパイル不能 2014/08/03 現在)</li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_3">Ubuntu (ソースコードから)  <a class="anchor_super" id="i42e9d6e" href="./?WRF#i42e9d6e" title="i42e9d6e" style="user-select:none;">&dagger;</a></h3>
+<p>(2020-03-09 柳瀬, Ubuntu 18.04)
+<a href="./?NetCDF%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB" class="link_page_passage" data-mtime="2021-09-15T15:41:54+09:00">NetCDFのインストール</a></p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_4">WPS のコンパイル  <a class="anchor_super" id="hd6d61d6" href="./?WRF#hd6d61d6" title="hd6d61d6" style="user-select:none;">&dagger;</a></h2>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_5">WPSV4.1  <a class="anchor_super" id="zd57964d" href="./?WRF#zd57964d" title="zd57964d" style="user-select:none;">&dagger;</a></h3>
+<pre>$ git clone https://github.com/wrf-model/WRF
+$ cd WPS
+$ ./clean
+$ ./configure
+1:gfortran,serialを選ぶ
+$ ./compile 2&gt;&amp;1 | tee log.compile</pre>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_6">地形平滑化実験  <a class="anchor_super" id="m556d1d6" href="./?WRF#m556d1d6" title="m556d1d6" style="user-select:none;">&dagger;</a></h3>
+<p>（2022/01/31 入江）
+地形などのデータ(Geographical Static Data)は、ここから取得する。</p>
+<blockquote><p class="quotation"><a href="https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html" rel="nofollow">https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html</a></p></blockquote>
+<p>topo_gmted2010_5mとtopo_gmted2010_30sというデータが標高データである。
+これらの標高データをいじって地形を平滑化する。以下に標高を0mにするプログラムの例を載せる。C言語で書いたので、必要に応じて書き換えて使ってほしい。</p>
+<pre>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;dirent.h&gt;
+#include &lt;regex.h&gt;
+int main(void){
+  size_t jmax=1206, imax=1206;
+  char dname[]=&quot;../../geog/topo_30s&quot;;
+  int i;
+  unsigned short data[jmax*imax];
+  char ifile[1025], ofile[1025];
+  FILE *fp;
+  DIR *dir;
+  struct dirent *dp;
+  regex_t reg;
+  regmatch_t match[1];
+  regcomp (&amp;reg, &quot;[0-9]*[-][0-9]*[.][0-9]*[-][0-9]*$&quot;, REG_EXTENDED);
+  dir=opendir(dname);
+  while(1){
+    dp = readdir (dir);
+    if (dp == NULL){break;}
+    sprintf (ifile, &quot;%s&quot;, dp-&gt;d_name);
+    if(regexec (&amp;reg, ifile, 1, match, 0) == 0){
+      printf (&quot;File = %s\n&quot;, ifile);
+      sprintf (ofile, &quot;%s&quot;, ifile);
+      sprintf (ifile, &quot;%s/%s&quot;, dname, ofile);
+      fp = fopen (ifile, &quot;rb&quot;);
+      fread (data, 2, jmax*imax, fp);
+      fclose(fp);
+      for (i=0;i&lt;=jmax*imax-1;i++){
+	 if (data[i] != 0){
+	   data[i] = 0;
+	 }
+      }
+      fp = fopen (ofile, &quot;wb&quot;);
+      fwrite (data, 2, jmax*imax, fp);
+      fclose(fp);
+    }
+  }
+  return 0;
+}
+</pre>
+<p>WPSをコンパイルする前に、WPS/geogrid/GEOGRID.TBLというファイルを書き換える。このファイルでは、geogrid.exe実行時にどの地理静的ファイルを読み込むかが書かれている。地形をいじる場合は、name=HGT_Mという部分のdefaultに適切なパスを通してやるとよい。</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_7">WRF のコンパイル  <a class="anchor_super" id="g7ecb316" href="./?WRF#g7ecb316" title="g7ecb316" style="user-select:none;">&dagger;</a></h2>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_8">WRFV4.1.3  <a class="anchor_super" id="cf5a64d1" href="./?WRF#cf5a64d1" title="cf5a64d1" style="user-select:none;">&dagger;</a></h3>
+<p>(2020-03-09 柳瀬, Ubuntu 18.04)</p>
+<pre>$ git clone https://github.com/wrf-model/WRF
+$ cd WRF
+$ export NETCDF=/usr/local/netcdf-c-4.7.3
+$ export HDF5=/usr/local/hdf5-1.10.6
+$ export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/hdf5-1.10.6/lib:/usr/local/lib:/usr/local/netcdf-c-4.7.3/lib
+$ ./configure</pre>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_9">WRFV3.6  <a class="anchor_super" id="zd46060d" href="./?WRF#zd46060d" title="zd46060d" style="user-select:none;">&dagger;</a></h3>
+<pre>$ tar zxvf WRFV3.6.TAR.gz
+$ cd WRFV
+$ ./configure
+32--34 番 のどれかを選ぶ
+Nesting は 1 を選択</pre>
+<blockquote><p class="quotation">WRF ver. 3.6.1 でもコンパイル出来ました (2014/08/16 追記)</p>
+<p class="quotation">WRF ver. 3.5.1 以前では，cpp のコンパイルフラグの -C が原因でコンパイル出来ませんでした．</p>
+<blockquote><p class="quotation">これは，GNU コンパイラの仕様変更が原因です．</p></blockquote></blockquote>
+<div class="spacer">&nbsp;</div>
+<p>現実場の実験ならば</p>
+<pre>$ ./compile em_real 2&gt;&amp;1 | tee compile.log</pre>
+<p>スコールライン (x-z 2次元)</p>
+<pre>$ ./compile em_squall2d_x 2&gt;&amp;1 | tee compile.log</pre>
+<p>スーパーセル</p>
+<pre>$ ./compile em_quarter_ss 2&gt;&amp;1 | tee compile.log</pre>
+<p>などなど</p>
+<blockquote><p class="quotation">2&gt;&amp;1 | tee compile.log のコマンドは，画面と compile.log の両方に log を出力するためのおまじない</p>
+<blockquote><p class="quotation">少しだけ解説</p>
+<p class="quotation">2: 標準エラー出力</p>
+<p class="quotation">1: 標準出力</p>
+<p class="quotation">2&gt;&amp;1 の意味は，標準エラー出力を標準出力と一緒にして出力するということ</p>
+<p class="quotation">単に &gt;&amp; とした場合は 1&gt;&amp; と同じ意味になる (標準出力のみ出力)</p>
+<p class="quotation">もし標準エラー出力と標準出力を別々に出力したい場合は，以下のようにする</p>
+<p class="quotation">./compile em_real 1&gt; out.log 2&gt; err.log</p>
+<blockquote><p class="quotation">補足(2020/03/16呉)</p>
+<pre>$ ./compile em_real | tee compile.log  </pre>
+<p class="quotation">だと、標準出力と標準エラー出力を画面に出力し、標準出力のみをcompile.logというファイルに出力することになる。</p>
+<pre>$ ./compile em_real &gt;&amp; compile.log  </pre>
+<p class="quotation">は標準出力と標準エラー出力をcompile.logというファイルに出力するが、画面には出力しない。</p></blockquote></blockquote></blockquote>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_10">細かい変数を出力する&lt;-必読  <a class="anchor_super" id="x7ee0b34" href="./?WRF#x7ee0b34" title="x7ee0b34" style="user-select:none;">&dagger;</a></h3>
+<p>WRFをコンパイルする前に、Registryをいじって標準出力以外の変数も出力できるようにしておく。
+いじるのは、Registry.EM_COMMONで、I/Oの列に&quot; h &quot;を付けたすと、wrfoutに変数が出てくるらしい。</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_11">ARWPost のコンパイル  <a class="anchor_super" id="xfce3fb6" href="./?WRF#xfce3fb6" title="xfce3fb6" style="user-select:none;">&dagger;</a></h2>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_12">注意事項  <a class="anchor_super" id="v85586ac" href="./?WRF#v85586ac" title="v85586ac" style="user-select:none;">&dagger;</a></h3>
+<p>コンパイル時に使用する NetCDF のバージョンが 4.1.3 以上の場合，</p>
+<pre>-L$(NETCDF)/lib -I$(NETCDF)/include -lnetcdf</pre>
+<p>上記の部分を以下のように書きなおす必要がありました．</p>
+<pre>-L$(NETCDF)/lib -I$(NETCDF)/include -lnetcdf -lnetcdff</pre>
+<p>参考：<a href="http://blog.livedoor.jp/rootan2007/archives/51856995.html" rel="nofollow">http://blog.livedoor.jp/rootan2007/archives/51856995.html</a></p>
+<blockquote><p class="quotation">これは，NetCDF のライブラリが C 版 と Fortran 版 で分割されたことによるものです．</p></blockquote>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_13">ARWPost の NetCDF 出力  <a class="anchor_super" id="wb9a8e2e" href="./?WRF#wb9a8e2e" title="wb9a8e2e" style="user-select:none;">&dagger;</a></h3>
+<p>ARWPostの出力は，通常 Grads 形式の 4byte 実数のバイナリとなっていますが，
+以下に説明するパッチを当てることで NetCDF 形式での出力が可能となります．</p>
+<p>以下のページから ARWpost_ncpatch.tar.gz というパッチファイルをダウンロード．</p>
+<ul class="list1 list-indent1"><li><a href="http://www2.mmm.ucar.edu/wrf/users/contributed/contributed.html" rel="nofollow">http://www2.mmm.ucar.edu/wrf/users/contributed/contributed.html</a></li></ul>
+<p>ARWPost にパッチを適用後，再コンパイルします．</p>
+<p>NetCDF 出力への切り替えは，namelist.ARWPost 内で</p>
+<pre>output_type = 'netcdf'</pre>
+<p>とします．</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_14">namelist.ARWPost の各変数の日本語訳  <a class="anchor_super" id="w9929271" href="./?WRF#w9929271" title="w9929271" style="user-select:none;">&dagger;</a></h3>
+<ul class="list1 list-indent1"><li><a href="https://sites.google.com/site/unumahp/wrf/install-wrf" rel="nofollow">https://sites.google.com/site/unumahp/wrf/install-wrf</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_15">wrfout ファイル (WRFの計算結果) の後処理プログラム  <a class="anchor_super" id="v6d3a204" href="./?WRF#v6d3a204" title="v6d3a204" style="user-select:none;">&dagger;</a></h2>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_16">read_wrf_nc  <a class="anchor_super" id="r1213de9" href="./?WRF#r1213de9" title="r1213de9" style="user-select:none;">&dagger;</a></h3>
+<ul class="list1 list-indent1"><li><a href="http://www2.mmm.ucar.edu/wrf/OnLineTutorial/Tools/read_wrf_nc.htm" rel="nofollow">http://www2.mmm.ucar.edu/wrf/OnLineTutorial/Tools/read_wrf_nc.htm</a>
+上記のURLからダウンロードする．</li></ul>
+<p>その後，コンパイルする．</p>
+<p>ただし，gfortran ver.4.4.7 以上? でコンパイルする場合にはひと工夫必要．</p>
+<p>要は，gfortran の内部関数である iargc の名前が command_argument_count という名前に変更になった．
+そのため，プログラム内の iargc の名前を command_argument_count に書き換えてあげれば良いということ．</p>
+<blockquote><p class="quotation"><a href="https://gcc.gnu.org/onlinedocs/gfortran/COMMAND_005fARGUMENT_005fCOUNT.html#COMMAND_005fARGUMENT_005fCOUNT" rel="nofollow">https://gcc.gnu.org/onlinedocs/gfortran/COMMAND_005fARGUMENT_005fCOUNT.html#COMMAND_005fARGUMENT_005fCOUNT</a></p></blockquote>
+<p>具体的には，569 行目を以下のように修正する．</p>
+<pre>numarg = command_argument_count()</pre>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_17">その他テクニック  <a class="anchor_super" id="f39761a1" href="./?WRF#f39761a1" title="f39761a1" style="user-select:none;">&dagger;</a></h2>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_18">エラーが出るときに疑うべき項目  <a class="anchor_super" id="d8f3e041" href="./?WRF#d8f3e041" title="d8f3e041" style="user-select:none;">&dagger;</a></h3>
+<ul class="list1 list-indent1"><li>rsl.error.XXXX 等の標準出力エラー文を確認する (基本)</li>
+<li>namelist.input 内の debug_level の値を増大させ、エラー箇所を把握する</li>
+<li>stack size limit</li>
+<li>OMP_STACK_SIZE_LIMIT, KMP_STACK_SIZE_LIMIT
+<pre>error while loading shared libraries: libnetcdff.so.7: cannot open shared object file: No such file or directory</pre>
+といわれた時には
+<pre># export LD_LIBRARY_PATH=&lt;PATH_OF_NETCDF&gt;/lib/:${LD_LIBRARY_PATH}</pre>
+で解決する。（&lt;PATH_OF_NETCDF&gt;はNetCDFのPATH）</li>
+<li>MPI関係のPATをチェックする</li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_19">計算領域  <a class="anchor_super" id="ac73767d" href="./?WRF#ac73767d" title="ac73767d" style="user-select:none;">&dagger;</a></h3>
+<ul class="list1 list-indent1"><li>2の乗数で設定すると、計算効率が良い
+ex)
+<pre>nx,ny,nz = 256,256,64</pre></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_20">シェルスクリプト  <a class="anchor_super" id="b407c060" href="./?WRF#b407c060" title="b407c060" style="user-select:none;">&dagger;</a></h3>
+<p>(2020/9 入江)</p>
+<ul class="list1 list-indent1"><li>大量にシミュレーションを行うとき、シェルを作っておくと便利
+　namelist.wpsやnamelist.inputは
+<pre>$ cat&gt;namelist.wps&lt;&lt;EOF
+$ cat&gt;namelist.input&lt;&lt;EOF</pre>
+　などを用いると毎回の作業が楽になる。
+　例えば、パラメタリゼーションの感度実験などは、
+<pre>### TASK.sh ###
+#!bin/bash
+rm namelist.input
+echo -n 'PHYSICS No.(1/2/3/4/5)::'
+read phy
+cat&gt;namelist.input&lt;&lt;EOF
+～namelist.inputの内容～
+該当箇所には${phy}で外部入力の値をいれる
+EOF
+
+mpiexec -np 4 real.exe &amp;
+mpiexec -np 12 wrf.exe &amp;</pre></li></ul>
+<ul class="list1 list-indent1"><li>編集後、以下のコマンドで実行
+<pre>$ bash ./TASK.sh</pre></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_21">orihimeでWRFを回す際  <a class="anchor_super" id="ica3027a" href="./?WRF#ica3027a" title="ica3027a" style="user-select:none;">&dagger;</a></h3>
+<ul class="list1 list-indent1"><li>MPI関係のエラーが出たら以下のようににPATHを通してください
+<pre>$ export PATH=/usr/local/openmpi-4.0.2/bin:${PATH}
+$ export LD_LIBRARY_PATH=/usr/local/openmpi-4.0.2/lib:${LD_LIBRARY_PATH}
+$ export LD_LIBRARY_PATH=/usr/local/openmpi-4.0.2/lib:${LD_LIBRARY_PATH}</pre></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_22">wrfout.ncからバイナリファイルを切り出す。  <a class="anchor_super" id="j9682e18" href="./?WRF#j9682e18" title="j9682e18" style="user-select:none;">&dagger;</a></h3>
+<p>(2021/01 入江)</p>
+<ul class="list1 list-indent1"><li>wrfoutでは設定しなければ変数はη座標系で格納されているため、FORTRANなどで等圧面解析を行うときには座標変換の手間がある（こいつがややこしい）。
+　そこで、計算しやすくするために、wrf-pythonを用いて座標変換し、データをバイナリに書き出してみる。
+<pre>#wrf2bin.py
+from netCDF4 import Dataset
+import numpy as np
+from wrf import (getvar, interplevel)
+nc = Dataset(&quot;PATH_TO_WRFOUT&quot;) 
+z850 = np.array(interplevel(getvar(nc,&quot;z&quot;),getvar(nc,&quot;p&quot;),850),dtype=np.float32).tofile(&quot;test.dat&quot;)</pre></li></ul>
+<p>ここで出力されるバイナリは、ヘッダー無しのビッグエンディアンであり、（データセットのサイズ）= （東西格子数）×（南北格子数）× （変数1の鉛直格子数）× 4バイトである。スクリプト例では、850hPaジオポテンシャル高度のバイナリデータを切り出している。</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_23">SST update  <a class="anchor_super" id="w2c0341e" href="./?WRF#w2c0341e" title="w2c0341e" style="user-select:none;">&dagger;</a></h3>
+<p>(2022/05 入江)</p>
+<ul class="list1 list-indent1"><li>デフォルトではoffになっているSSTのupdateをonにする方法。NCEPのSSTデータと外部機関のSSTデータを用いることができる。</li>
+<li>ungrib.exeを2回実行（気象データ：FNLとSSTデータ：SSTを作成）</li>
+<li>FNLとSSTという初期値ファイルができていれば、ungrib成功。</li>
+<li>metgrid.exeを実行し、wrfinput_d&lt;domain&gt;とwrflowinp_d&lt;domain&gt;ができていれば成功。
+<ul class="list2 list-indent1"><li>namelist.wps
+<pre>&amp;ungrib
+out_format = 'WPS',
+prefix = 'FNL',     # FNLのungribで使う。名前は任意。
+!prefix = 'SST',    # SSTのungribで使う。名前は任意。
+
+&amp;metgrid
+fg_name = 'FNL','SST',
+io_form_metgrid = 2,
+</pre></li>
+<li>namelist.input
+<pre>&amp;time_control
+auxinput4_inname = &quot;wrflowinp_d&lt;domain&gt;&quot;,
+auxinput4_interval = 360, 360, 360, # 初期値が6時間間隔データの場合
+io_form_auxinput4 = 2, 
+
+&amp;physics
+sf_ocean_physics = 0,
+sst_update = 1,</pre></li></ul></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_24">Interval of output (wrfout) files  <a class="anchor_super" id="w2c0341e" href="./?WRF#w2c0341e" title="w2c0341e" style="user-select:none;">&dagger;</a></h3>
+<ul class="list1 list-indent1"><li>If you'd like to restart your run, and to change interval of output files other than 60 min, add the option below to the &amp;time_controll section of the namelist:</li></ul>
+<p>override_restart_timers = .true.</p>
+<p>Of course you shold also change $history_interval in the &amp;time_controll section of the namelist. I referred to the following websites:</p>
+<p><a href="https://forum.mmm.ucar.edu/threads/wrfout-files-not-written-at-desired-interval.260/" rel="nofollow">https://forum.mmm.ucar.edu/threads/wrfout-files-not-written-at-desired-interval.260/</a></p>
+<p><a href="https://forum.mmm.ucar.edu/threads/history_interval-error-in-wrf-v4-2.14693/" rel="nofollow">https://forum.mmm.ucar.edu/threads/history_interval-error-in-wrf-v4-2.14693/</a></p>
+<p>わたしは #br
+こんにちは</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_25">京大システムBで　WRF のコンパイル  <a class="anchor_super" id="g7ecb316" href="./?WRF#g7ecb316" title="g7ecb316" style="user-select:none;">&dagger;</a></h2>
+<pre>$ tar zxvf WRFV3.6.TAR.gz
+$ cd WRFV
+$ ./configure
+15(intel dm)を選択。
+
+この時点で既にnetcdf・hdf5・intelコンパイラは以下のモジュールを利用しておく。</pre>
+<p>(2023.10時点)</p>
+<pre>$ module list
+Currently Loaded Modulefiles:
+ 1) slurm/2022              4) intelmpi/2022.3(default)             7) hdf5/1.12.2_intel-2022.3(default)
+ 2) SysB/2022               5) PrgEnvIntel/2022(default)
+ 3) intel/2022.3(default)   6) netcdf/4.9.0_intel-2022.3(default)</pre>
+<p>(2023.3まで)</p>
+<pre>$ module list
+Currently Loaded Modulefiles:
+ 1) pbs/SystemB               3) impi/2017.2               5) netcdf/4.1.3_intel-17.0
+ 2) intel/17.0.2.174          4) PrgEnv-intel/1.0          6) hdf5/1.8.17_intel-17.0</pre>
+<p>loadしてなければ以下のように読み込んでおく。上記リストの最新版を参考に適宜書き換えて。</p>
+<pre>$module load impi/2017.2
+$module load netcdf/4.1.3_intel-17.0
+$module load hdf5/1.8.17_intel-17.0</pre>
+<p>WRFV4では以下の設定でコンパイルが成功。上記リストの最新版を参考に適宜書き換えて。</p>
+<pre>$module switch impi/2018.4
+$module load netcdf/4.1.3_intel-17.0
+$module load hdf5/1.8.17_intel-17.0
+$module switch intel/17.0.6.256</pre>
+<p>WRF用の環境変数を設定。</p>
+<pre>$export WRF_EM_CORE=1
+$export WRFIO_NCD_LARGE_FILE_SUPPORT=1
+$export OMP_NUM_THREADS=1(なくても走ります)
+$export NETCDF=&quot;/opt/app/netcdf/4.1.3/intel-17.0/&quot;</pre>
+<p>次にexternal/io_netcdf/makefileを編集します。以下のように-lnetcdffを追加してください。</p>
+<pre>LIBS    = $(LIB_LOCAL) -L$(NETCDFPATH)/lib -lnetcdff -lnetcdf</pre>
+<p>リミット解除してコンパイル</p>
+<pre>$ulimit -s unlimited
+$./compile em_real 2&gt;&amp;1 | tee compile.log
+特にconfigure.wrfを編集しなくとも、2017年4月時点の環境下ではコンパイル可能です。上記のmoduleの通り、ifortはversion17.0.2を使いました。
+$ifort -v
+ifort version 17.0.2</pre>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_26">コンパイルに成功したが、Segmentation Faultが起こってしまう（スパコン）  <a class="anchor_super" id="r52567fd" href="./?WRF#r52567fd" title="r52567fd" style="user-select:none;">&dagger;</a></h3>
+<p>(2020/11 入江)</p>
+<ul class="list1 list-indent1"><li>これはスタック領域の不足により起こるらしい。でかい計算するときは必須。自動配列および一時的な計算用に作成される配列を、スタックではなくヒープ上に割り当てる。解決するには、-heap-arraysというオプションをつけてコンパイルする。
+作業として、configure.wrfを開いて、以下のように-heap-arraysを書き加える。</li></ul>
+<pre>CFLAGS_LOCAL = -w -O3 -heap-arrays -ip
+FCOPTIM      = -O3 -heap-arrays</pre>
+<p>ヒープとスタックの違い</p>
+<ul class="list1 list-indent1"><li><a href="https://www.uquest.co.jp/embedded/learning/lecture16.html" rel="nofollow">https://www.uquest.co.jp/embedded/learning/lecture16.html</a></li></ul>
+<p>加えて、Intel Fortranのver.10.0以上では一時的なメモリ割り当てをスタックへ割り付けることが増えたらしい。このため、ulimitで制限を緩めてもSegmentation Faultが出ることがある。</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_27">real.exeがエラーメッセージ無しで強制終了されてしまう（スパコン）  <a class="anchor_super" id="oe7227ae" href="./?WRF#oe7227ae" title="oe7227ae" style="user-select:none;">&dagger;</a></h3>
+<p>(2024/09/13 入江)</p>
+<ul class="list1 list-indent1"><li>特に高解像度の実験を行う際には、エラメも出ずに計算が落ちてしまうときがある。そんなときは鉛直風が大きくなって計算不安定を起こしていることが考えられるので、鉛直風速の値を確認する。異質で大きな値を発見したら、namelist.inputで
+<pre>w_damping=1</pre>
+にして再計算。以下は鉛直風の確認に使えるヒストグラムを出力するfortranプログラム（wrfhist.f90とでも命名しようか）。適宜書き換えて使ってみてほしい。
+<pre>program wrfhist
+  ! (2024/09/13 入江作成)
+  use netcdf
+  implicit none
+  
+  ! 定数
+  integer, parameter :: num_bins = 21  ! ヒストグラムのビンの数
+  integer :: ncid, varid, ierr         ! NETCDF関係
+  integer :: bin
+  integer :: i, j, k
+  integer :: nx, ny, nz
+  real(4), allocatable :: w(:,:,:)
+  real(4) :: min_w, max_w, bin_width
+  real(4), allocatable :: hist_w(:,:)
+  character(len=100) :: ncfile
+  
+  ! コマンドライン引数を取得するための変数
+  character(len=100) :: nx_str, ny_str, nz_str
+   
+  ! コマンドライン引数からファイル名と格子数を取得
+  call get_command_argument(1, ncfile)
+  call get_command_argument(2, nx_str)
+  call get_command_argument(3, ny_str)
+  call get_command_argument(4, nz_str)
+   
+  ! 文字列を整数に変換
+  read(nx_str, *) nx
+  read(ny_str, *) ny
+  read(nz_str, *) nz
+  
+  ! 配列の動的割り当て
+  allocate(w(nx, ny, nz))
+  allocate(hist_w(nz, num_bins))
+  
+  ! NetCDFファイルを開く
+  ierr = nf90_open(ncfile, NF90_NOWRITE, ncid)
+  if (ierr /= nf90_noerr) then
+     print *, 'Error: Unable to open file.'
+     stop
+  end if
+  
+  ! 鉛直風速変数 (W) のIDを取得
+  ierr = nf90_inq_varid(ncid, &quot;W&quot;, varid)
+  if (ierr /= nf90_noerr) then
+     print *, 'Error: Unable to get W variable.'
+     stop
+  end if
+  
+  ! 鉛直風速データを読み取る
+  ierr = nf90_get_var(ncid, varid, w)
+  if (ierr /= nf90_noerr) then
+     print *, 'Error: Unable to read W data.'
+     stop
+  end if
+  
+  ! NetCDFファイルを閉じる
+  ierr = nf90_close(ncid)
+  
+  ! ヒストグラムの初期化
+  hist_w = 0.0
+  
+  ! 最小値と最大値を定義（ここでは適当な値を仮定）
+  min_w = -10.0
+  max_w = 10.0
+  bin_width = (max_w - min_w) / num_bins
+  
+  ! 高度ごとに鉛直風速の頻度分布を計算
+  do k = 1, nz
+     do i = 1, nx
+        do j = 1, ny
+           ! どのビンに属するかを計算
+           bin = int((w(i, j, k) - min_w) / bin_width) + 1
+           if (bin &gt;= 1 .and. bin &lt;= num_bins) then
+              hist_w(k, bin) = hist_w(k, bin) + 1
+           end if
+        end do
+     end do
+  end do
+  
+  ! 結果の出力 (例: 各高度ごとのヒストグラムを表示)
+  do k = 1, nz
+     print *, 'Height level ', k
+     do i = 1, num_bins
+        print *, 'Bin ', min_w-1+i, ': ', hist_w(k, i)
+     end do
+  end do
+  
+  ! メモリの解放
+  deallocate(w)
+  deallocate(hist_w)
+  
+end program wrfhist</pre></li></ul>
+<p>プログラムの使い方は、</p>
+<pre>ifort -I$NETCDF/include -L$NETCDF/lib wrfhist.f90 -lnetcdff</pre>
+<p>として、実行コマンドの末尾に、スペース区切りでファイル名と格子情報（nx, ny, nz）を添える。</p>
+<pre>./a.out wrfout_d03_20yy-mm-dd_hh\:00\:00 411 411 69</pre>
+</div><!-- □END id:body -->
+
+</div><!-- □END id:content -->
+</div><!-- □ END id:wrap_content -->
+
+</div><!-- □END id:main -->
+</div><!-- □END id:wrapper -->
+
+</body>
+</html>
