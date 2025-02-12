@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja">
+<head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+    <meta http-equiv="content-style-type" content="text/css" />
+    <meta http-equiv="Content-Script-Type" content="text/javascript" />
+    <title>WSLを使う - 暴風雨 計算機 Wiki</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        #wrapper {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #header {
+            background: #0073e6;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 24px;
+        }
+        #navigator {
+            background: #eee;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        #navigator ul {
+            list-style: none;
+            padding: 0;
+        }
+        #navigator ul li a {
+            text-decoration: none;
+            color: #0073e6;
+            font-weight: bold;
+        }
+        h2, h3 {
+            color: #333;
+            border-bottom: 2px solid #0073e6;
+            padding-bottom: 5px;
+        }
+        pre {
+            background: #272822;
+            color: #f8f8f2;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const links = document.querySelectorAll("#navigator a");
+            links.forEach(link => {
+                link.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute("href"));
+                    window.scrollTo({ top: target.offsetTop - 20, behavior: "smooth" });
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="header">
+            WSLを使う
+        </div>
+        <div id="navigator">
+            <h2>目次</h2>
+            <ul>
+                <li><a href="#cd67fac4">WSLを使うにあたって</a></li>
+                <li><a href="#aec76cdd">Ubuntuの初期設定</a></li>
+                <li><a href="#pa3bff57">パッケージのインストール</a></li>
+                <li><a href="#f78b2458">GUIでEmacsやGrADSを使う準備</a></li>
+                <li><a href="#i803aada">Emacsを使う</a></li>
+                <li><a href="#ua7513a2">VS Codeを使う</a></li>
+                <li><a href="#n6620707">GrADSを使う</a></li>
+                <li><a href="#he637667">ディレクトリ構造</a></li>
+                <li><a href="#s9c37a6c">トラブルシューティング</a></li>
+            </ul>
+        </div>
+        <div id="main">
+            <h2 id="cd67fac4">WSLを使うにあたって</h2>
+            <p>WSL（Windows Subsystem for Linux）を利用すると、Windows上でLinuxを動かすことができる。Windows10から実装された。</p>
+            <h2 id="aec76cdd">Ubuntuの初期設定</h2>
+            <p>①ターミナル画面に移ると、インストールのため数分待つよう指示される。</p>
+            <p>②インストール終了後、ユーザー名とパスワードを設定する。これはsudoコマンド使用時のパスワードとなる。</p>
+            <h2 id="pa3bff57">パッケージのインストール</h2>
+            <pre>$ sudo apt install パッケージ名</pre>
+            <h2 id="f78b2458">GUIでEmacsやGrADSを使う準備</h2>
+            <pre>$ sudo apt install x11-apps x11-utils x11-xserver-utils dbus-x11</pre>
+            <pre>export DISPLAY=localhost:0.0</pre>
+            <h2 id="i803aada">Emacsを使う</h2>
+            <pre>$ sudo apt install emacs</pre>
+            <h2 id="ua7513a2">VS Codeを使う</h2>
+            <h2 id="n6620707">GrADSを使う</h2>
+            <pre>$ sudo apt install grads</pre>
+            <h2 id="he637667">ディレクトリ構造</h2>
+            <pre>cd /mnt/c/Users/(your_accout_name)/Downloads/</pre>
+            <h2 id="s9c37a6c">トラブルシューティング</h2>
+            <pre>$ service ssh status</pre>
+            <pre>$ service ssh restart</pre>
+        </div>
+        <div id="footer">
+            <p>Copyright (C) 2014--2016 by Takashi Unuma All Rights Reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
