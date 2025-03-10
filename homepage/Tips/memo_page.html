@@ -20,56 +20,17 @@
             background: white;
             margin: 5px 0;
             padding: 10px;
-            display: flex;
-            justify-content: space-between;
             border-radius: 5px;
-        }
-        button {
-            background: red;
-            color: white;
-            border: none;
-            cursor: pointer;
         }
     </style>
 </head>
 <body>
     <h2>メモページ</h2>
-    <input type="text" id="memoInput" placeholder="メモを入力">
-    <button onclick="addMemo()">追加</button>
-    <ul id="memoList"></ul>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", loadMemos);
-
-        function addMemo() {
-            const input = document.getElementById("memoInput");
-            const text = input.value.trim();
-            if (text === "") return;
-
-            const memos = JSON.parse(localStorage.getItem("memos")) || [];
-            memos.push(text);
-            localStorage.setItem("memos", JSON.stringify(memos));
-            input.value = "";
-            loadMemos();
-        }
-
-        function loadMemos() {
-            const memoList = document.getElementById("memoList");
-            memoList.innerHTML = "";
-            const memos = JSON.parse(localStorage.getItem("memos")) || [];
-            memos.forEach((memo, index) => {
-                const li = document.createElement("li");
-                li.innerHTML = `${memo} <button onclick="deleteMemo(${index})">削除</button>`;
-                memoList.appendChild(li);
-            });
-        }
-
-        function deleteMemo(index) {
-            const memos = JSON.parse(localStorage.getItem("memos")) || [];
-            memos.splice(index, 1);
-            localStorage.setItem("memos", JSON.stringify(memos));
-            loadMemos();
-        }
-    </script>
+    <ul id="memoList">
+        <li>ここにメモ1を入力</li>
+        <li>ここにメモ2を入力</li>
+        <li>ここにメモ3を入力</li>
+        <!-- 追加のメモはここに直接書き込む -->
+    </ul>
 </body>
 </html>
